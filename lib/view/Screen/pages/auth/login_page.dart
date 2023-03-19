@@ -1,16 +1,15 @@
-import 'package:get/get.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
-import 'package:chat_app/shared/constants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:chat_app/function/my_function.dart';
 import 'package:chat_app/services/auth_service.dart';
-import 'package:chat_app/function/show_snack_bar.dart';
-import 'package:chat_app/helper/helper_function.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:chat_app/services/database_service.dart';
+import 'package:chat_app/shared/constants.dart';
+import 'package:chat_app/view/Screen/pages/auth/signup_page.dart';
 import 'package:chat_app/view/Screen/pages/homepage.dart';
 import 'package:chat_app/view/widget/text_input_decoration.dart';
-import 'package:chat_app/view/Screen/pages/auth/signup_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -140,16 +139,19 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         _isLoading = true;
       });
-      await authService.logInWithEmailAndPassword(email, password).then((value) async {
-        if(value == true){
-          QuerySnapshot snapshot = await DatabaseService(
-              uid: FirebaseAuth.instance.currentUser!.uid).gettingUserData(email);
+      await authService
+          .logInWithEmailAndPassword(email, password)
+          .then((value) async {
+        if (value == true) {
+          QuerySnapshot snapshot =
+              await DatabaseService(uid: FirebaseAuth.instance.currentUser!.uid)
+                  .gettingUserData(email);
           //saving the value to shared Preferences
-          await HelperFunction.saveUserLoggedIn(true);
-          await HelperFunction.saveUserEmailSF(email);
-          await HelperFunction.saveUserNameSF(snapshot.docs[0]['fullName']);
+          await MyFunctions.saveUserLoggedIn(true);
+          await MyFunctions.saveUserEmailToSP(email);
+          await MyFunctions.saveUserNameToSP(snapshot.docs[0]['fullName']);
           Get.off(const HomePage());
-        }else{
+        } else {
           showSnackBar(context, Theme.of(context).primaryColor, value);
           setState(() {
             _isLoading = false;

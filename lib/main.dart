@@ -1,10 +1,9 @@
-import 'package:chat_app/view/Screen/pages/test_page.dart';
+import 'package:chat_app/function/my_function.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:chat_app/shared/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:chat_app/helper/helper_function.dart';
 import 'package:chat_app/view/Screen/pages/homepage.dart';
 import 'package:chat_app/view/Screen/pages/auth/login_page.dart';
 
@@ -42,7 +41,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   getUserLoggedInStatus() async {
-    await HelperFunction.getUserLoggedInStatus().then((value) {
+    await MyFunctions.getUserLoggedInStatus().then((value) {
       if (value != null) {
         setState(() {
           _isSignedIn = value;

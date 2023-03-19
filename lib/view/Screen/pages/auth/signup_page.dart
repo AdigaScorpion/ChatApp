@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:chat_app/shared/constants.dart';
 import 'package:chat_app/services/auth_service.dart';
-import 'package:chat_app/helper/helper_function.dart';
-import 'package:chat_app/function/show_snack_bar.dart';
+import 'package:chat_app/function/my_function.dart';
 import 'package:chat_app/view/Screen/pages/auth/login_page.dart';
 import 'package:chat_app/view/widget/text_input_decoration.dart';
 
@@ -161,9 +160,9 @@ class _SignUpPageState extends State<SignUpPage> {
           .then((value) async {
         if (value == true) {
           //  saving the shared preference state
-          await HelperFunction.saveUserLoggedIn(true);
-          await HelperFunction.saveUserEmailSF(email);
-          await HelperFunction.saveUserNameSF(fullName);
+          await MyFunctions.saveUserLoggedIn(true);
+          await MyFunctions.saveUserEmailToSP(email);
+          await MyFunctions.saveUserNameToSP(fullName);
           Get.off(const LoginPage());
         } else {
           showSnackBar(context, CustomColors.errorColor, value);
