@@ -2,29 +2,26 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:chat_app/shared/constants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:chat_app/services/auth_service.dart';
-import 'package:chat_app/function/show_snack_bar.dart';
 import 'package:chat_app/helper/helper_function.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:chat_app/services/database_service.dart';
-import 'package:chat_app/view/Screen/pages/homepage.dart';
+import 'package:chat_app/function/show_snack_bar.dart';
+import 'package:chat_app/view/Screen/pages/auth/login_page.dart';
 import 'package:chat_app/view/widget/text_input_decoration.dart';
-import 'package:chat_app/view/Screen/pages/auth/signup_page.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignUpPageState extends State<SignUpPage> {
   final formKey = GlobalKey<FormState>();
-  AuthService authService = AuthService();
   bool _isLoading = false;
+  String fullName = "";
   String email = "";
   String password = "";
+  AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -47,17 +44,31 @@ class _LoginPageState extends State<LoginPage> {
                             style: TextStyle(
                                 fontSize: 40, fontWeight: FontWeight.bold)),
                         const SizedBox(height: 15),
-                        const Text("Login now to see what they are talking",
+                        const Text("SignUp now to see what they are talking",
                             style: TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.w400)),
                         const SizedBox(height: 15),
                         Image.asset('assets/images/loginImage.png'),
-                        const SizedBox(height: 135),
+                        const SizedBox(height: 60),
                         TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "user name can not be Empty";
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              fullName = value;
+                            });
+                          },
                           decoration: textInputDecoration.copyWith(
-                              labelText: "E-mail",
-                              prefixIcon: Icon(Icons.email,
+                              labelText: "User Name",
+                              prefixIcon: Icon(Icons.person,
                                   color: Theme.of(context).primaryColor)),
+                        ),
+                        const SizedBox(height: 15),
+                        TextFormField(
                           validator: (value) {
                             return RegExp(
                                         r"^[a-zA-Z.a-z\d!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z\d]+\.[a-zA-Z]+")
@@ -70,26 +81,31 @@ class _LoginPageState extends State<LoginPage> {
                               email = value;
                             });
                           },
+                          decoration: textInputDecoration.copyWith(
+                              labelText: "E-mail",
+                              prefixIcon: Icon(Icons.email,
+                                  color: Theme.of(context).primaryColor)),
                         ),
                         const SizedBox(height: 15),
                         TextFormField(
-                            obscureText: true,
-                            decoration: textInputDecoration.copyWith(
-                                labelText: "Password",
-                                prefixIcon: Icon(Icons.lock,
-                                    color: Theme.of(context).primaryColor)),
-                            validator: (value) {
-                              if (value!.length < 8) {
-                                return "Password must be more than 8 characters";
-                              } else {
-                                return null;
-                              }
-                            },
-                            onChanged: (value) {
-                              setState(() {
-                                password = value;
-                              });
-                            }),
+                          obscureText: true,
+                          validator: (value) {
+                            if (value!.length < 8) {
+                              return "Password must be more than 7 characters";
+                            } else {
+                              return null;
+                            }
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              password = value;
+                            });
+                          },
+                          decoration: textInputDecoration.copyWith(
+                              labelText: "Password",
+                              prefixIcon: Icon(Icons.lock,
+                                  color: Theme.of(context).primaryColor)),
+                        ),
                         const SizedBox(height: 15),
                         SizedBox(
                           width: double.infinity,
@@ -100,10 +116,10 @@ class _LoginPageState extends State<LoginPage> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30))),
                             onPressed: () {
-                              logIn();
+                              signUp();
                             },
                             child: const Text(
-                              " Sign In ",
+                              " Sign Up ",
                               style: TextStyle(
                                   color: CustomColors.primaryBackgroundColor),
                             ),
@@ -112,19 +128,19 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(height: 8),
                         RichText(
                           text: TextSpan(
-                              text: " Do not have an account ?  ",
+                              text: " Already have an account? ",
                               style: const TextStyle(
                                   fontSize: 12,
                                   color: CustomColors.primaryTextColor),
                               children: <TextSpan>[
                                 TextSpan(
-                                    text: " Sign Up ",
+                                    text: " Sign In ",
                                     style: const TextStyle(
                                         fontSize: 11,
                                         decoration: TextDecoration.underline),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        Get.off(const SignUpPage());
+                                        Get.off(const LoginPage());
                                       }),
                               ]),
                         ),
@@ -135,22 +151,22 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  logIn() async {
+  signUp() async {
     if (formKey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
       });
-      await authService.logInWithEmailAndPassword(email, password).then((value) async {
-        if(value == true){
-          QuerySnapshot snapshot = await DatabaseService(
-              uid: FirebaseAuth.instance.currentUser!.uid).gettingUserData(email);
-          //saving the value to shared Preferences
+      await authService
+          .registerUserWithEmailAndPassword(fullName, email, password)
+          .then((value) async {
+        if (value == true) {
+          //  saving the shared preference state
           await HelperFunction.saveUserLoggedIn(true);
           await HelperFunction.saveUserEmailSF(email);
-          await HelperFunction.saveUserNameSF(snapshot.docs[0]['fullName']);
-          Get.off(const HomePage());
-        }else{
-          showSnackBar(context, Theme.of(context).primaryColor, value);
+          await HelperFunction.saveUserNameSF(fullName);
+          Get.off(const LoginPage());
+        } else {
+          showSnackBar(context, CustomColors.errorColor, value);
           setState(() {
             _isLoading = false;
           });

@@ -1,10 +1,12 @@
-import 'package:chat_app/helper/helper_function.dart';
-import 'package:chat_app/view/Screen/pages/auth/login_page.dart';
-import 'package:chat_app/view/Screen/pages/homepage.dart';
+import 'package:chat_app/view/Screen/pages/test_page.dart';
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:chat_app/shared/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:chat_app/helper/helper_function.dart';
+import 'package:chat_app/view/Screen/pages/homepage.dart';
+import 'package:chat_app/view/Screen/pages/auth/login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,7 +54,7 @@ class _MyAppState extends State<MyApp> {
 // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       theme: ThemeData(
           primaryColor: CustomColors.primaryColor,
           scaffoldBackgroundColor: CustomColors.primaryBackgroundColor),
