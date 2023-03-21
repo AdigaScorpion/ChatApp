@@ -186,8 +186,10 @@ class _HomePageState extends State<HomePage> {
                   itemCount: snapshot.data['groups'].length,
                   itemBuilder: (context, index) {
                     return GroupTile(
-                        userName: snapshot.data['fullName'],
-                        groupName: getName(snapshot.data['groups'][index]));
+                      userName: snapshot.data['fullName'],
+                      groupName: getName(snapshot.data['groups'][index]),
+                      groupId: getId(snapshot.data['groups'][index]),
+                    );
                   });
             } else {
               return noGroupWidget();

@@ -1,9 +1,9 @@
-import 'package:chat_app/function/my_function.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:chat_app/shared/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:chat_app/function/my_function.dart';
 import 'package:chat_app/view/Screen/pages/homepage.dart';
 import 'package:chat_app/view/Screen/pages/auth/login_page.dart';
 

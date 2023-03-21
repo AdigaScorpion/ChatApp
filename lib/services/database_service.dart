@@ -43,6 +43,7 @@ class DatabaseService {
       "groupId": "",
       "recentMessage": "",
       "recentMessageSender": "",
+      "members": [],
     });
     await groupDocumentReference.update({
       "member": FieldValue.arrayUnion(["${uid}_$userName"]),
@@ -54,5 +55,26 @@ class DatabaseService {
       "groups":
           FieldValue.arrayUnion(["${groupDocumentReference.id}_$groupName"])
     });
+  }
+
+//  getting the chats
+  getChat(String groupId) async {
+    return groupCollection
+        .doc(groupId)
+        .collection("messages")
+        .orderBy("time")
+        .snapshots();
+  }
+
+//  getting group admin
+  Future getGroupAdmin(String groupId) async {
+    DocumentReference documentReference = groupCollection.doc(groupId);
+    DocumentSnapshot documentSnapshot = await documentReference.get();
+    return documentSnapshot['admin'];
+  }
+
+//getting group members
+  getGroupMembers(String groupId) async {
+    return groupCollection.doc(groupId).snapshots();
   }
 }
