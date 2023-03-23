@@ -43,7 +43,7 @@ class DatabaseService {
       "groupId": "",
       "recentMessage": "",
       "recentMessageSender": "",
-      "members": [],
+      "member": [],
     });
     await groupDocumentReference.update({
       "member": FieldValue.arrayUnion(["${uid}_$userName"]),
@@ -68,13 +68,55 @@ class DatabaseService {
 
 //  getting group admin
   Future getGroupAdmin(String groupId) async {
-    DocumentReference documentReference = groupCollection.doc(groupId);
-    DocumentSnapshot documentSnapshot = await documentReference.get();
+    DocumentReference d = groupCollection.doc(groupId);
+    DocumentSnapshot documentSnapshot = await d.get();
     return documentSnapshot['admin'];
   }
 
 //getting group members
   getGroupMembers(String groupId) async {
     return groupCollection.doc(groupId).snapshots();
+  }
+
+//  search groups
+  searchByName(String groupName) {
+    return groupCollection.where('groupName', isEqualTo: groupName).get();
+  }
+
+//  checking if user joined the group
+  Future<bool> isUserJoined(
+      String groupName, String groupId, String userName) async {
+    DocumentReference userDocumentReference = userCollection.doc(uid);
+    DocumentSnapshot documentSnapshot = await userDocumentReference.get();
+    List<dynamic> groups = await documentSnapshot['groups'];
+    if (groups.contains("${groupId}_$groupName")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+//  join and group
+  Future joinGroup(String groupName, String groupId, String userName) async {
+    DocumentReference userDocumentReference = userCollection.doc(uid);
+    DocumentReference groupDocumentReference = groupCollection.doc(groupId);
+    await userDocumentReference.update({
+      "groups": FieldValue.arrayUnion(["${groupId}_$groupName"])
+    });
+    await groupDocumentReference.update({
+      "member": FieldValue.arrayUnion(["${uid}_$userName"])
+    });
+  }
+
+  //  exit and group
+  Future exitGroup(String groupName, String groupId, String userName) async {
+    DocumentReference userDocumentReference = userCollection.doc(uid);
+    DocumentReference groupDocumentReference = groupCollection.doc(groupId);
+    await userDocumentReference.update({
+      "groups": FieldValue.arrayRemove(["${groupId}_$groupName"])
+    });
+    await groupDocumentReference.update({
+      "member": FieldValue.arrayRemove(["${uid}_$userName"])
+    });
   }
 }

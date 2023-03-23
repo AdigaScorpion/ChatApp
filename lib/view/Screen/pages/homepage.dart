@@ -1,16 +1,16 @@
+import 'package:get/get.dart';
+import 'package:flutter/material.dart';
+import 'package:chat_app/shared/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:chat_app/function/my_function.dart';
 import 'package:chat_app/services/auth_service.dart';
-import 'package:chat_app/services/database_service.dart';
-import 'package:chat_app/shared/constants.dart';
-import 'package:chat_app/view/Screen/pages/auth/login_page.dart';
-import 'package:chat_app/view/Screen/pages/groups_Page.dart';
-import 'package:chat_app/view/Screen/pages/profile_page.dart';
-import 'package:chat_app/view/Screen/pages/search_page.dart';
 import 'package:chat_app/view/widget/group_tile.dart';
+import 'package:chat_app/services/database_service.dart';
+import 'package:chat_app/view/Screen/pages/groups_Page.dart';
+import 'package:chat_app/view/Screen/pages/search_page.dart';
+import 'package:chat_app/view/Screen/pages/profile_page.dart';
+import 'package:chat_app/view/Screen/pages/auth/login_page.dart';
 import 'package:chat_app/view/widget/text_input_decoration.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 10),
             ListTile(
               onTap: () {
-                Get.to(const GroupsPage());
+                Get.to(()=>const GroupsPage());
               },
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 5),
             ListTile(
               onTap: () {
-                Get.to(ProfilePage(userName: userName, userEmail: email));
+                Get.to(()=>ProfilePage(userName: userName, userEmail: email));
               },
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -118,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                             highlightColor: CustomColors.primaryColor,
                             onPressed: () async {
                               await authService.signOut().whenComplete(() {
-                                Get.offAll(const LoginPage());
+                                Get.offAll(()=>const LoginPage());
                               });
                             },
                             icon: Icon(

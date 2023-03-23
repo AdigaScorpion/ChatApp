@@ -8,11 +8,13 @@ class Constants {
 }
 
 class CustomColors {
-  static const Color primaryColor = Color(0xFF07B60B);
-  static const Color primaryTextColor = Color(0xff000000);
-  static const Color primaryBackgroundColor = Color(0xffffffff);
-  static const Color errorColor = Color(0xFFF40607);
-  static const Color enabledColor = Color(0xFF1061F8);
-  static const Color inActiveColor = Color(0xFF9E9E9E);
+  static const  Color primaryColor = Color(0xFF07B60B);
+  static const  Color primaryTextColor = Color(0xff000000);
+  static const  Color primaryBackgroundColor = Color(0xffffffff);
+  static const  Color errorColor = Color(0xFFF40607);
+  static const  Color enabledColor = Color(0xFF1061F8);
+  static const  Color inActiveColor = Color(0xFF9E9E9E);
+  static const  Color black = Color(0xff000000);
+  static const  Color white = Color(0xffffffff);
 // static const MaterialColor errorColor1 = Colors.grey;
 }

@@ -28,8 +28,8 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   void initState() {
-    super.initState();
     getChatAndAdmin();
+    super.initState();
   }
 
   @override
@@ -41,14 +41,13 @@ class _ChatPageState extends State<ChatPage> {
         centerTitle: true,
         actions: [
           IconButton(
+              icon: const Icon(Icons.info),
               onPressed: () {
-                Get.to(GroupInfo(
+                Get.to(() => GroupInfo(
                     groupId: widget.groupId,
                     groupName: widget.groupName,
                     adminName: admin));
-              },
-              icon: const Icon(Icons.info)),
-
+              })
         ],
       ),
     );

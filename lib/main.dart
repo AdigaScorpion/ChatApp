@@ -1,4 +1,3 @@
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:chat_app/shared/constants.dart';
@@ -53,7 +52,7 @@ class _MyAppState extends State<MyApp> {
 // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       theme: ThemeData(
           primaryColor: CustomColors.primaryColor,
           scaffoldBackgroundColor: CustomColors.primaryBackgroundColor),

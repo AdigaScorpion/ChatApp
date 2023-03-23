@@ -1,3 +1,4 @@
+import 'package:chat_app/function/my_function.dart';
 import 'package:chat_app/services/database_service.dart';
 import 'package:chat_app/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,13 +21,13 @@ class GroupInfo extends StatefulWidget {
 }
 
 class _GroupInfoState extends State<GroupInfo> {
-  Stream? members;
+  Stream? member;
 
-  // @override
-  // void initState() {
-  //   getMembers();
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    getMembers();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,7 @@ class _GroupInfoState extends State<GroupInfo> {
               color: CustomColors.primaryColor.withOpacity(0.1),
             ),
             child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   CircleAvatar(
                       backgroundColor: CustomColors.primaryColor,
@@ -58,21 +59,23 @@ class _GroupInfoState extends State<GroupInfo> {
                       child: Text(
                           widget.groupName.substring(0, 1).toUpperCase(),
                           style: const TextStyle(
-                              fontWeight: FontWeight.w500,
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
                               color: CustomColors.primaryBackgroundColor))),
                   const SizedBox(width: 20),
                   Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text("Group:  ${widget.groupName}",
                             style:
                                 const TextStyle(fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 5),
-                        Text("Admin:  ${widget.adminName}",
-                            style: const TextStyle(fontSize: 12)),
+                        // const SizedBox(height: 5),
+                        // Text("Admin:  ${widget.adminName}",
+                        //     style: const TextStyle(fontSize: 12)),
                       ])
                 ]),
           ),
+          const SizedBox(height: 10),
           memberList(),
         ]),
       ),
@@ -84,51 +87,68 @@ class _GroupInfoState extends State<GroupInfo> {
         .getGroupMembers(widget.groupId)
         .then((value) {
       setState(() {
-        members = value;
+        member = value;
       });
     });
   }
 
   memberList() {
-    return StreamBuilder(
-        stream: members,
-        builder: (context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data['members'] != null) {
-              if (snapshot.data['members'].legnth != 0) {
-                return ListView.builder(
-                    itemCount: snapshot.data['members'].length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 5),
-                        child: ListTile(
-                          leading: CircleAvatar(
-                              backgroundColor: CustomColors.primaryColor,
-                              radius: 30,
-                              child: Text(
-                                  widget.groupName
-                                      .substring(0, 1)
-                                      .toUpperCase(),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: CustomColors
-                                          .primaryBackgroundColor))),
-                        ),
-                      );
-                    });
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: CustomColors.primaryColor.withAlpha(10)),
+      child: StreamBuilder(
+          stream: member,
+          builder: (context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data['member'] != null) {
+                if (snapshot.data['member'].length != 0) {
+                  return ListView.builder(
+                      itemCount: snapshot.data['member'].length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 5),
+                          child: ListTile(
+                            leading: CircleAvatar(
+                                backgroundColor: CustomColors.primaryColor,
+                                radius: 25,
+                                child: Text(
+                                    getName(snapshot.data['member'][index])
+                                        .substring(0, 1)
+                                        .toUpperCase(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: CustomColors
+                                            .primaryBackgroundColor))),
+                            title:
+                                Text(getName(snapshot.data['member'][index])),
+                            trailing:
+                                (getName(snapshot.data['member'][index]) ==
+                                        (widget.adminName)
+                                    ? Text('admin',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: CustomColors.primaryTextColor
+                                                .withAlpha(75)))
+                                    : null),
+                          ),
+                        );
+                      });
+                } else {
+                  return const Center(child: Text(' No Members '));
+                }
               } else {
                 return const Center(child: Text(' No Members '));
               }
             } else {
-              return const Center(child: Text(' No Members '));
+              return const Center(
+                  child: CircularProgressIndicator(
+                      color: CustomColors.primaryColor));
             }
-          } else {
-            return const Center(
-                child: CircularProgressIndicator(
-                    color: CustomColors.primaryColor));
-          }
-        });
+          }),
+    );
   }
 }

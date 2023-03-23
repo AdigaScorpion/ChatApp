@@ -123,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                                         decoration: TextDecoration.underline),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        Get.off(const SignUpPage());
+                                        Get.off(()=>const SignUpPage());
                                       }),
                               ]),
                         ),
@@ -150,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
           await MyFunctions.saveUserLoggedIn(true);
           await MyFunctions.saveUserEmailToSP(email);
           await MyFunctions.saveUserNameToSP(snapshot.docs[0]['fullName']);
-          Get.off(const HomePage());
+          Get.off(()=>const HomePage());
         } else {
           showSnackBar(context, Theme.of(context).primaryColor, value);
           setState(() {

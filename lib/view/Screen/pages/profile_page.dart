@@ -47,7 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
             const SizedBox(height: 15),
             ListTile(
               onTap: () {
-                Get.to(const GroupsPage());
+                Get.to(()=>const GroupsPage());
               },
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -58,7 +58,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             ListTile(
               onTap: () {
-                Get.off(const HomePage());
+                Get.off(()=>const HomePage());
               },
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
