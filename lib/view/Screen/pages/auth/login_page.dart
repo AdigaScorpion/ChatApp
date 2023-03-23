@@ -1,15 +1,14 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
+import 'package:chat_app/shared/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:chat_app/function/my_function.dart';
 import 'package:chat_app/services/auth_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:chat_app/services/database_service.dart';
-import 'package:chat_app/shared/constants.dart';
-import 'package:chat_app/view/Screen/pages/auth/signup_page.dart';
 import 'package:chat_app/view/Screen/pages/homepage.dart';
 import 'package:chat_app/view/widget/text_input_decoration.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:chat_app/view/Screen/pages/auth/signup_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -123,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                                         decoration: TextDecoration.underline),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        Get.off(()=>const SignUpPage());
+                                        nextScreenReplace(context,const SignUpPage());
                                       }),
                               ]),
                         ),
@@ -150,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
           await MyFunctions.saveUserLoggedIn(true);
           await MyFunctions.saveUserEmailToSP(email);
           await MyFunctions.saveUserNameToSP(snapshot.docs[0]['fullName']);
-          Get.off(()=>const HomePage());
+          nextScreenReplace(context, const HomePage());
         } else {
           showSnackBar(context, Theme.of(context).primaryColor, value);
           setState(() {

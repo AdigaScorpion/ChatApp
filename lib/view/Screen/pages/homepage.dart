@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:chat_app/shared/constants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:chat_app/function/my_function.dart';
 import 'package:chat_app/services/auth_service.dart';
-import 'package:chat_app/view/widget/group_tile.dart';
 import 'package:chat_app/services/database_service.dart';
-import 'package:chat_app/view/Screen/pages/groups_page.dart';
-import 'package:chat_app/view/Screen/pages/search_page.dart';
-import 'package:chat_app/view/Screen/pages/profile_page.dart';
+import 'package:chat_app/shared/constants.dart';
 import 'package:chat_app/view/Screen/pages/auth/login_page.dart';
+import 'package:chat_app/view/Screen/pages/groups_page.dart';
+import 'package:chat_app/view/Screen/pages/profile_page.dart';
+import 'package:chat_app/view/Screen/pages/search_page.dart';
+import 'package:chat_app/view/widget/group_tile.dart';
 import 'package:chat_app/view/widget/text_input_decoration.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   String userName = "";
   String email = "";
   Stream? groups;
-  bool _isLoading = false;
+  bool isLoading = false;
   String groupName = "";
 
   @override
@@ -219,7 +219,7 @@ class _HomePageState extends State<HomePage> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                _isLoading == true
+                isLoading == true
                     ? const Center(
                         child: CircularProgressIndicator(
                             color: CustomColors.primaryColor))
@@ -246,14 +246,14 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () async {
                     if (groupName.isNotEmpty) {
                       setState(() {
-                        _isLoading = true;
+                        isLoading = true;
                       });
                       DatabaseService(
                               uid: FirebaseAuth.instance.currentUser!.uid)
                           .createGroup(userName,
                               FirebaseAuth.instance.currentUser!.uid, groupName)
                           .whenComplete(() {
-                        _isLoading = false;
+                        isLoading = false;
                       });
                       nextScreenReplace(context,const HomePage());
                       showSnackBar(context, Colors.green.withAlpha(100),

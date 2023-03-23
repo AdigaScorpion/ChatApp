@@ -56,56 +56,10 @@ class _ProfilePageState extends State<ProfilePage> {
               title: const Text(" Groups ",
                   style: TextStyle(color: CustomColors.primaryTextColor)),
             ),
-            ListTile(
-              onTap: () {
-                nextScreenReplace(context,const HomePage());
-              },
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              leading:
-                  const Icon(Icons.person, color: CustomColors.primaryColor),
-              title: const Text(" Profile ",
-                  style: TextStyle(color: CustomColors.primaryTextColor)),
-            ),
             const SizedBox(height: 370),
             ListTile(
-              onTap: () async {
-                showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: const Text(" Home "),
-                        content: const Text(" Are you sure? "),
-                        actions: [
-                          IconButton(
-                            highlightColor: CustomColors.primaryColor,
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: Icon(
-                              Icons.cancel_sharp,
-                              color:
-                                  CustomColors.primaryTextColor.withAlpha(50),
-                            ),
-                          ),
-                          const SizedBox(width: 15),
-                          IconButton(
-                            highlightColor: CustomColors.primaryColor,
-                            onPressed: () async {
-                              await authService.signOut().whenComplete(() {
-                                nextScreenReplace(context, const HomePage());
-                              });
-                            },
-                            icon: Icon(
-                              Icons.exit_to_app_sharp,
-                              color:
-                                  CustomColors.primaryTextColor.withAlpha(50),
-                            ),
-                          ),
-                        ],
-                      );
-                    });
+              onTap: () {
+                nextScreenReplace(context, const HomePage());
               },
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -118,7 +72,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+        padding: const EdgeInsets.symmetric(horizontal:30, vertical: 30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -151,7 +105,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: <Widget>[
                   const Text("User E-mail : ",
                       style: TextStyle(color: CustomColors.primaryColor)),
-                  Text(widget.userEmail),
+                  SizedBox(width: 200,child: Text(widget.userEmail, softWrap: true)),
                 ],
               ),
             ),

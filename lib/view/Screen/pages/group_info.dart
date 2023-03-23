@@ -1,3 +1,5 @@
+import 'package:chat_app/services/auth_service.dart';
+import 'package:chat_app/view/Screen/pages/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,6 +23,7 @@ class GroupInfo extends StatefulWidget {
 }
 
 class _GroupInfoState extends State<GroupInfo> {
+  AuthService authService = AuthService();
   Stream? member;
 
   @override
@@ -38,7 +41,44 @@ class _GroupInfoState extends State<GroupInfo> {
         centerTitle: true,
         actions: [
           IconButton(
-              onPressed: () {}, icon: const Icon(Icons.exit_to_app_sharp))
+              onPressed: () {
+                showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text(" Exit Group "),
+                        content: const Text(" Are you sure? "),
+                        actions: [
+                          IconButton(
+                            highlightColor: CustomColors.primaryColor,
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(
+                              Icons.cancel_sharp,
+                              color:
+                              CustomColors.primaryTextColor.withAlpha(50),
+                            ),
+                          ),
+                          const SizedBox(width: 15),
+                          IconButton(
+                            highlightColor: CustomColors.primaryColor,
+                            onPressed: () async {
+                              await DatabaseService().exitGroup(widget.groupName,widget.groupId,widget.adminName).whenComplete(() {
+                                nextScreenReplace(context, const HomePage());
+                              });
+                            },
+                            icon: Icon(
+                              Icons.exit_to_app_sharp,
+                              color:
+                              CustomColors.primaryTextColor.withAlpha(50),
+                            ),
+                          ),
+                        ],
+                      );
+                    });
+              }, icon: const Icon(Icons.exit_to_app_sharp))
         ],
       ),
       body: Container(

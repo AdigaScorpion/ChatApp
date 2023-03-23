@@ -1,7 +1,7 @@
-import 'package:chat_app/shared/constants.dart';
-import 'package:chat_app/view/Screen/pages/chat_page.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:chat_app/shared/constants.dart';
+import 'package:chat_app/function/my_function.dart';
+import 'package:chat_app/view/Screen/pages/chat_page.dart';
 
 class GroupTile extends StatefulWidget {
   final String userName;
@@ -24,7 +24,7 @@ class _GroupTileState extends State<GroupTile> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(ChatPage(
+        nextScreen(context, ChatPage(
           groupName: widget.groupName,
           userName: widget.userName,
           groupId: widget.groupId,

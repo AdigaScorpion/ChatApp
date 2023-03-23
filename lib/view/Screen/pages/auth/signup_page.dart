@@ -1,9 +1,8 @@
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:chat_app/shared/constants.dart';
-import 'package:chat_app/services/auth_service.dart';
 import 'package:chat_app/function/my_function.dart';
+import 'package:chat_app/services/auth_service.dart';
 import 'package:chat_app/view/Screen/pages/auth/login_page.dart';
 import 'package:chat_app/view/widget/text_input_decoration.dart';
 
@@ -139,7 +138,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                         decoration: TextDecoration.underline),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        Get.off(()=>const LoginPage());
+                                        nextScreenReplace(context,const LoginPage());
                                       }),
                               ]),
                         ),
@@ -163,7 +162,7 @@ class _SignUpPageState extends State<SignUpPage> {
           await MyFunctions.saveUserLoggedIn(true);
           await MyFunctions.saveUserEmailToSP(email);
           await MyFunctions.saveUserNameToSP(fullName);
-          Get.off(()=>const LoginPage());
+          nextScreenReplace(context, const LoginPage());
         } else {
           showSnackBar(context, CustomColors.errorColor, value);
           setState(() {

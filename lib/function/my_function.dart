@@ -1,6 +1,5 @@
-import 'package:chat_app/shared/constants.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:chat_app/shared/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyFunctions {
@@ -25,7 +24,7 @@ class MyFunctions {
     return await sp.setString(userEmailKey, userEmail);
   }
 
-  // getting tha data from SP
+  // getting tha data from Shared Preferences
   static Future<bool?> getUserLoggedInStatus() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     return sp.getBool(userLoggedInKey);
@@ -55,7 +54,7 @@ void showSnackBar(context, color, message) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message, style: const TextStyle(fontSize: 14)),
       backgroundColor: color,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 5),
       action: SnackBarAction(
           label: "ok",
           onPressed: () {},

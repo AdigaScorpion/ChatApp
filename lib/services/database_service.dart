@@ -101,10 +101,10 @@ class DatabaseService {
     DocumentReference userDocumentReference = userCollection.doc(uid);
     DocumentReference groupDocumentReference = groupCollection.doc(groupId);
     await userDocumentReference.update({
-      "groups": FieldValue.arrayUnion(["${groupId}_$groupName"])
+      "member": FieldValue.arrayUnion(["${groupId}_$groupName"])
     });
     await groupDocumentReference.update({
-      "member": FieldValue.arrayUnion(["${uid}_$userName"])
+      "groups": FieldValue.arrayUnion(["${uid}_$userName"])
     });
   }
 
@@ -113,10 +113,10 @@ class DatabaseService {
     DocumentReference userDocumentReference = userCollection.doc(uid);
     DocumentReference groupDocumentReference = groupCollection.doc(groupId);
     await userDocumentReference.update({
-      "groups": FieldValue.arrayRemove(["${groupId}_$groupName"])
+      "member": FieldValue.arrayRemove(["${groupId}_$groupName"])
     });
     await groupDocumentReference.update({
-      "member": FieldValue.arrayRemove(["${uid}_$userName"])
+      "groups": FieldValue.arrayRemove(["${uid}_$userName"])
     });
   }
 }

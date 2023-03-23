@@ -1,3 +1,4 @@
+import 'package:chat_app/view/Screen/pages/groups_Page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:chat_app/shared/constants.dart';
@@ -54,7 +55,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          primaryColor: CustomColors.primaryColor,
+        primaryColor: CustomColors.primaryColor,
           scaffoldBackgroundColor: CustomColors.primaryBackgroundColor),
       debugShowCheckedModeBanner: false,
       home: _isSignedIn ? const HomePage() : const LoginPage(),
