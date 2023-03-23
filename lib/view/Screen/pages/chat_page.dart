@@ -1,4 +1,3 @@
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/shared/constants.dart';
 import 'package:chat_app/function/my_function.dart';
@@ -43,7 +42,7 @@ class _ChatPageState extends State<ChatPage> {
           IconButton(
               icon: const Icon(Icons.info),
               onPressed: () {
-                Get.to(() => GroupInfo(
+                nextScreen(context, GroupInfo(
                     groupId: widget.groupId,
                     groupName: widget.groupName,
                     adminName: admin));

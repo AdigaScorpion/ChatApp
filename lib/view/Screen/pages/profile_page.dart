@@ -1,9 +1,9 @@
-import 'package:chat_app/services/auth_service.dart';
-import 'package:chat_app/shared/constants.dart';
-import 'package:chat_app/view/Screen/pages/groups_Page.dart';
-import 'package:chat_app/view/Screen/pages/homepage.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:chat_app/shared/constants.dart';
+import 'package:chat_app/function/my_function.dart';
+import 'package:chat_app/services/auth_service.dart';
+import 'package:chat_app/view/Screen/pages/homepage.dart';
+import 'package:chat_app/view/Screen/pages/groups_page.dart';
 
 class ProfilePage extends StatefulWidget {
   final String userName;
@@ -47,7 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
             const SizedBox(height: 15),
             ListTile(
               onTap: () {
-                Get.to(()=>const GroupsPage());
+                nextScreen(context,const GroupsPage());
               },
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -58,7 +58,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             ListTile(
               onTap: () {
-                Get.off(()=>const HomePage());
+                nextScreenReplace(context,const HomePage());
               },
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -81,7 +81,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           IconButton(
                             highlightColor: CustomColors.primaryColor,
                             onPressed: () {
-                              Get.back();
+                              Navigator.pop(context);
                             },
                             icon: Icon(
                               Icons.cancel_sharp,
@@ -94,7 +94,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             highlightColor: CustomColors.primaryColor,
                             onPressed: () async {
                               await authService.signOut().whenComplete(() {
-                                Get.offAll(const HomePage());
+                                nextScreenReplace(context, const HomePage());
                               });
                             },
                             icon: Icon(

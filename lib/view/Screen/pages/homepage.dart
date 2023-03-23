@@ -1,4 +1,3 @@
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,7 +5,7 @@ import 'package:chat_app/function/my_function.dart';
 import 'package:chat_app/services/auth_service.dart';
 import 'package:chat_app/view/widget/group_tile.dart';
 import 'package:chat_app/services/database_service.dart';
-import 'package:chat_app/view/Screen/pages/groups_Page.dart';
+import 'package:chat_app/view/Screen/pages/groups_page.dart';
 import 'package:chat_app/view/Screen/pages/search_page.dart';
 import 'package:chat_app/view/Screen/pages/profile_page.dart';
 import 'package:chat_app/view/Screen/pages/auth/login_page.dart';
@@ -45,7 +44,7 @@ class _HomePageState extends State<HomePage> {
           actions: [
             IconButton(
                 onPressed: () {
-                  Get.to(const SearchPage());
+                  nextScreen(context, const SearchPage());
                 },
                 icon: const Icon(Icons.search))
           ]),
@@ -69,7 +68,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 10),
             ListTile(
               onTap: () {
-                Get.to(()=>const GroupsPage());
+                nextScreenReplace(context, const GroupsPage());
               },
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -81,7 +80,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 5),
             ListTile(
               onTap: () {
-                Get.to(()=>ProfilePage(userName: userName, userEmail: email));
+                nextScreen(context, ProfilePage(userName: userName, userEmail: email));
               },
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -105,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                           IconButton(
                             highlightColor: CustomColors.primaryColor,
                             onPressed: () {
-                              Get.back();
+                              Navigator.pop(context);
                             },
                             icon: Icon(
                               Icons.cancel_sharp,
@@ -118,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                             highlightColor: CustomColors.primaryColor,
                             onPressed: () async {
                               await authService.signOut().whenComplete(() {
-                                Get.offAll(()=>const LoginPage());
+                                nextScreenReplace(context, const LoginPage());
                               });
                             },
                             icon: Icon(
@@ -237,7 +236,7 @@ class _HomePageState extends State<HomePage> {
             actions: [
               IconButton(
                   onPressed: () {
-                    Get.back();
+                    Navigator.pop(context);
                   },
                   icon: Icon(Icons.cancel_sharp,
                       color: CustomColors.primaryTextColor.withAlpha(50)),
@@ -256,7 +255,7 @@ class _HomePageState extends State<HomePage> {
                           .whenComplete(() {
                         _isLoading = false;
                       });
-                      Get.off(const HomePage());
+                      nextScreenReplace(context,const HomePage());
                       showSnackBar(context, Colors.green.withAlpha(100),
                           " Group Created Successfully");
                     } else {
