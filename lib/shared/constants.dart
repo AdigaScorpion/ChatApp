@@ -16,5 +16,6 @@ class CustomColors {
   static const  Color inActiveColor = Color(0xFF9E9E9E);
   static const  Color black = Color(0xff000000);
   static const  Color white = Color(0xffffffff);
+  static const  Color secondaryBackGround = Color(0xFFB4B2B2);
 // static const MaterialColor errorColor1 = Colors.grey;
 }

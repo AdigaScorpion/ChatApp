@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
           : SingleChildScrollView(
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
+                    const EdgeInsets.only(left: 20, right: 20, top:40,bottom: 10),
                 child: Form(
                   key: formKey,
                   child: Column(
@@ -44,13 +44,13 @@ class _LoginPageState extends State<LoginPage> {
                         const Text("ChatApp",
                             style: TextStyle(
                                 fontSize: 40, fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 15),
+                        const SizedBox(height: 10),
                         const Text("Login now to see what they are talking",
                             style: TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.w400)),
-                        const SizedBox(height: 15),
+                        const SizedBox(height: 5),
                         Image.asset('assets/images/loginImage.png'),
-                        const SizedBox(height: 135),
+                        const SizedBox(height: 20),
                         TextFormField(
                           decoration: textInputDecoration.copyWith(
                               labelText: "E-mail",

@@ -62,13 +62,12 @@ class _HomePageState extends State<HomePage> {
                     fontWeight: FontWeight.bold,
                     height: 1.5),
                 textAlign: TextAlign.center),
-            const SizedBox(height: 10),
             Divider(
                 height: 1, color: CustomColors.primaryTextColor.withAlpha(10)),
             const SizedBox(height: 10),
             ListTile(
               onTap: () {
-                nextScreenReplace(context, const GroupsPage());
+                nextScreen(context, const GroupsPage());
               },
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -89,7 +88,7 @@ class _HomePageState extends State<HomePage> {
               title: const Text(" Profile ",
                   style: TextStyle(color: CustomColors.primaryTextColor)),
             ),
-            const SizedBox(height: 380),
+            const SizedBox(height: 120),
             ListTile(
               onTap: () async {
                 showDialog(

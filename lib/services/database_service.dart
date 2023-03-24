@@ -101,10 +101,10 @@ class DatabaseService {
     DocumentReference userDocumentReference = userCollection.doc(uid);
     DocumentReference groupDocumentReference = groupCollection.doc(groupId);
     await userDocumentReference.update({
-      "member": FieldValue.arrayUnion(["${groupId}_$groupName"])
+      "groups": FieldValue.arrayUnion(["${groupId}_$groupName"])
     });
     await groupDocumentReference.update({
-      "groups": FieldValue.arrayUnion(["${uid}_$userName"])
+      "member": FieldValue.arrayUnion(["${uid}_$userName"])
     });
   }
 
@@ -113,10 +113,20 @@ class DatabaseService {
     DocumentReference userDocumentReference = userCollection.doc(uid);
     DocumentReference groupDocumentReference = groupCollection.doc(groupId);
     await userDocumentReference.update({
-      "member": FieldValue.arrayRemove(["${groupId}_$groupName"])
+      "groups": FieldValue.arrayRemove(["${groupId}_$groupName"])
     });
     await groupDocumentReference.update({
-      "groups": FieldValue.arrayRemove(["${uid}_$userName"])
+      "member": FieldValue.arrayRemove(["${uid}_$userName"])
+    });
+  }
+
+  // sending a message
+  sendMessage(String groupId, Map<String, dynamic> chatMessageData) async {
+    groupCollection.doc(groupId).collection("messages").add(chatMessageData);
+    groupCollection.doc(groupId).update({
+      "recentMessage": chatMessageData['message'],
+      "recentMessageSender": chatMessageData['sender'],
+      "recentMessageTime": chatMessageData['time'].toString()
     });
   }
 }

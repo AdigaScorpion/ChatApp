@@ -1,10 +1,10 @@
-import 'package:chat_app/services/auth_service.dart';
-import 'package:chat_app/view/Screen/pages/homepage.dart';
-import 'package:flutter/material.dart';
-import 'package:chat_app/shared/constants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:chat_app/function/my_function.dart';
+import 'package:chat_app/services/auth_service.dart';
 import 'package:chat_app/services/database_service.dart';
+import 'package:chat_app/shared/constants.dart';
+import 'package:chat_app/view/Screen/pages/homepage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class GroupInfo extends StatefulWidget {
   final String groupId;
@@ -58,27 +58,31 @@ class _GroupInfoState extends State<GroupInfo> {
                             icon: Icon(
                               Icons.cancel_sharp,
                               color:
-                              CustomColors.primaryTextColor.withAlpha(50),
+                                  CustomColors.primaryTextColor.withAlpha(50),
                             ),
                           ),
                           const SizedBox(width: 15),
                           IconButton(
                             highlightColor: CustomColors.primaryColor,
                             onPressed: () async {
-                              await DatabaseService().exitGroup(widget.groupName,widget.groupId,widget.adminName).whenComplete(() {
+                              await DatabaseService(uid: FirebaseAuth.instance.currentUser!.uid)
+                                  .exitGroup(widget.groupName, widget.groupId,
+                                  FirebaseAuth.instance.currentUser.toString())
+                                  .whenComplete(() {
                                 nextScreenReplace(context, const HomePage());
                               });
                             },
                             icon: Icon(
                               Icons.exit_to_app_sharp,
                               color:
-                              CustomColors.primaryTextColor.withAlpha(50),
+                                  CustomColors.primaryTextColor.withAlpha(50),
                             ),
                           ),
                         ],
                       );
                     });
-              }, icon: const Icon(Icons.exit_to_app_sharp))
+              },
+              icon: const Icon(Icons.exit_to_app_sharp))
         ],
       ),
       body: Container(
