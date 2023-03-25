@@ -149,6 +149,7 @@ class _SearchPageState extends State<SearchPage> {
       trailing: InkWell(
         onTap: () async {
           _isJoined ? null :DatabaseService(uid: user!.uid).joinGroup(groupName, groupId, userName);
+          showSnackBar(context,CustomColors.enabledColor, "Successfully Joined the Group");
         },
         child: _isJoined
             ? Container(

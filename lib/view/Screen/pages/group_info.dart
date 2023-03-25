@@ -71,6 +71,7 @@ class _GroupInfoState extends State<GroupInfo> {
                                   .whenComplete(() {
                                 nextScreenReplace(context, const HomePage());
                               });
+                              showSnackBar(context, CustomColors.secondaryBackGround, "successfully Exit the group");
                             },
                             icon: Icon(
                               Icons.exit_to_app_sharp,
