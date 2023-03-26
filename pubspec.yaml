@@ -13,7 +13,13 @@ dependencies:
   shared_preferences: ^2.0.18
   firebase_core: ^2.8.0
   cloud_firestore: ^4.4.5
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/coding.png"
+
 dev_dependencies:
+  flutter_launcher_icons: ^0.12.0
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0

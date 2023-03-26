@@ -1,4 +1,3 @@
-import 'package:chat_app/view/Screen/pages/groups_Page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:chat_app/shared/constants.dart';
